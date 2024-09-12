@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build Image') {
             steps {
-                sh 'sudo docker build -t BlackBeanBurrito/qa_flask'
+                sh 'sudo docker build -t BlackBeanBurrito/qa_flask .'
             }
         }
         stage('Deploy container') {
