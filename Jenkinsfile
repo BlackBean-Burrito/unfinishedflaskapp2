@@ -1,14 +1,18 @@
 pipeline {
     agent any
+    enviroment {
+        DOCKER_LOGIN=credentials('DOCKER_LOGIN')
+    }
     stages {
-        stage('Build Image') {
+        stage('Deploy image') {
             steps {
-                sh 'sudo docker build -t BlackBeanBurrito/qa_flask .'
+                sh 'sudo docker-compose up --build -d'
             }
         }
-        stage('Deploy container') {
+        stage('push image') {
             steps {
-                sh 'sudo docker run -dp 5000:5000 --name qa_flask_app BlackBeanBurrito/qa_flask'
+                sh 'sudo docker login -u ${DOCKER_LOGIN_USR} -p{DOCKER_LOGIN_PSW}'
+                sh 'sudo docker-compose push'
             }
         }
     }
